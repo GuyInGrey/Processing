@@ -187,6 +187,7 @@ namespace Processing
 
         public void DrawImage(PSprite sprite, int x, int y, int width, int height)
         {
+            if (sprite == null) { return; }
             Graphics.DrawImage(sprite._Image, x, y, width, height);
         }
 

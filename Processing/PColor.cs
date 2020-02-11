@@ -40,7 +40,8 @@ namespace Processing
             return new PColor(
                 (int)PMath.Lerp(a.R, b.R, inter),
                 (int)PMath.Lerp(a.G, b.G, inter),
-                (int)PMath.Lerp(a.B, b.B, inter));
+                (int)PMath.Lerp(a.B, b.B, inter),
+                (int)PMath.Lerp(a.A, b.A, inter));
         }
 
         public static PColor LerpMultiple(PColor[] colors, float colorPercent)
