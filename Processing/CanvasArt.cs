@@ -194,7 +194,7 @@ namespace Processing
         /// <param name="height"></param>
         public void Rect(int x, int y, int width, int height)
         {
-            if (_Fill != null)
+            if (!(_Fill is null))
             {
                 Graphics.FillRectangle(FillColor, new Rectangle(x, y, width, height));
             }
@@ -213,7 +213,7 @@ namespace Processing
         /// <param name="radius"></param>
         public void Circle(float x, float y, float radius)
         {
-            if (_Fill != null)
+            if (!(_Fill is null))
             {
                 Graphics.FillEllipse(FillColor, new RectangleF(x - radius, y - radius, radius * 2f, radius * 2f));
             }
@@ -273,7 +273,7 @@ namespace Processing
         /// <param name="y2"></param>
         public void Line(int x1, int y1, int x2, int y2)
         {
-            if (_Stroke == null) { return; }
+            if (_Stroke is null) { return; }
             Graphics.DrawLine(StrokeColor, x1, y1, x2, y2);
         }
 
@@ -288,7 +288,7 @@ namespace Processing
         /// <param name="e"></param>
         public void Arc(int x, int y, int w, int h, float s, float e)
         {
-            if (_Stroke == null) { return; }
+            if (_Stroke is null) { return; }
             Graphics.DrawArc(StrokeColor, x, y, w, h, PMath.Degrees(s), PMath.Degrees(e));
         }
 
@@ -302,7 +302,7 @@ namespace Processing
         /// <param name="height"></param>
         public void DrawImage(PSprite sprite, int x, int y, int width, int height)
         {
-            if (sprite == null) { return; }
+            if (sprite is null) { return; }
             Graphics.DrawImage(sprite._Image, x, y, width, height);
         }
 
