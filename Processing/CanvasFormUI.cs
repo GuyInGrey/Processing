@@ -7,9 +7,21 @@ namespace Processing
 {
     public class CanvasFormUI
     {
+        /// <summary>
+        /// The System.Forms.Form used to display the window. Only touch if you know what you're doing.
+        /// </summary>
         public CanvasForm Form;
+        /// <summary>
+        /// Whether the application is running or not.
+        /// </summary>
         public bool Running { get; internal set; } = true;
+        /// <summary>
+        /// Ran the moment a key is pressed down.
+        /// </summary>
         public event EventHandler<PKeyEventArgs> KeyDown;
+        /// <summary>
+        /// Ran the moment a key is lifted.
+        /// </summary>
         public event EventHandler<PKeyEventArgs> KeyUp;
         internal List<(string, Action<bool>)> KeyActions;
 
@@ -48,6 +60,12 @@ namespace Processing
             });
         }
 
+        /// <summary>
+        /// An easy way to trigger an action when a key is pressed or lifted.
+        /// </summary>
+        /// <param name="key">The key to check for.</param>
+        /// <param name="action">The action to run.</param>
+        /// <returns></returns>
         public bool AddKeyAction(string key, Action<bool> action)
         {
             if (Enum.TryParse<Keys>(key, out _))
@@ -67,6 +85,9 @@ namespace Processing
             Application.Run(Form);
         }
 
+        /// <summary>
+        /// Exit the application.
+        /// </summary>
         public void Close()
         {
             Form.Invoke(new Action(() => { Form.Close(); }));

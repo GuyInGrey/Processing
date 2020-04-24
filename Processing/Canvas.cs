@@ -11,8 +11,14 @@ namespace Processing
 {
     public class Canvas : CanvasFormUI
     {
+        /// <summary>
+        /// To change all things visual on the canvas, use this!
+        /// </summary>
         public CanvasArt Art;
 
+        /// <summary>
+        /// Used to hide the window (frames will still be processed even if not displayed).
+        /// </summary>
         public bool WindowVisible
         {
             get => Form.Visible;
@@ -20,13 +26,32 @@ namespace Processing
         }
 
         internal Image CanvasImage;
+
+        /// <summary>
+        /// Width of the window.
+        /// </summary>
         public int Width => CanvasImage.Width;
+        /// <summary>
+        /// Height of the window.
+        /// </summary>
         public int Height => CanvasImage.Height;
 
+        /// <summary>
+        /// System.Drawing.Graphics object. Don't mess with this unless you're trying to do something this library does not support.
+        /// </summary>
         public Graphics _Graphics;
 
+        /// <summary>
+        /// The frame rate your application is trying to run at.
+        /// </summary>
         public int FrameRateTarget = 60;
+        /// <summary>
+        /// The current framerate the application is running at.
+        /// </summary>
         public int FrameRateCurrent = 0;
+        /// <summary>
+        /// The frames that have been rendered since the application started.
+        /// </summary>
         public int TotalFrameCount = 0;
 
         internal int FramesInLastSecond = 0;
@@ -34,11 +59,14 @@ namespace Processing
 
         internal float LastFrameTimeMilliseconds = 0f;
 
+        /// <summary>
+        /// The time since the last frame was rendered in seconds.
+        /// </summary>
         public float Delta;
 
-        public MethodBase DrawMethod;
-        public MethodBase DebugDrawMethod;
-        public MethodBase SetupMethod;
+        internal MethodBase DrawMethod;
+        internal MethodBase DebugDrawMethod;
+        internal MethodBase SetupMethod;
 
         public Canvas()
         {
@@ -64,6 +92,12 @@ namespace Processing
             Art = new CanvasArt(this);
         }
 
+        /// <summary>
+        /// Creates the canvas window.
+        /// </summary>
+        /// <param name="width">The width of the window.</param>
+        /// <param name="height">The height of the window.</param>
+        /// <param name="frameRateTarget">The frame rate your application is trying to run at.</param>
         public void CreateCanvas(int width, int height, int frameRateTarget)
         {
             Initialize(width, height);
@@ -144,13 +178,25 @@ namespace Processing
             }
         }
 
+        /// <summary>
+        /// Pause the application thread for the given time. Only use if you know what you're doing, can hang application.
+        /// </summary>
+        /// <param name="ms">The time to pause for.</param>
         public void Delay(int ms) { if (ms > 0) { Thread.Sleep(ms); } }
 
+        /// <summary>
+        /// Set the window's title text. Advised not to run every frame.
+        /// </summary>
+        /// <param name="s"></param>
         public void Title(object s)
         {
             Form.Text = s.ToString();
         }
 
+        /// <summary>
+        /// Set the application's render quality.
+        /// </summary>
+        /// <param name="mode">The quality to render at.</param>
         public void SetQuality(RenderQuality mode)
         {
             switch (mode)

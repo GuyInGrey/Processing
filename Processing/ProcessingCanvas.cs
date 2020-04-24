@@ -2,6 +2,9 @@
 {
     public class ProcessingCanvas : Canvas
     {
+        /// <summary>
+        /// Render the built-in debug display?
+        /// </summary>
         public bool DebugMode = false;
 
         public ProcessingCanvas()
