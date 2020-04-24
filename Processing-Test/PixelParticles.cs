@@ -202,7 +202,7 @@ namespace Processing_Test
 
                         distance -= 2;
                         if (distance < 0) { distance = 0; }
-                        goto endWhile;
+                        goto endWhile; // To Skip
                         do
                         {
                             //for (var y2 = y - distance; y2 < y + distance + 1; y2++)
@@ -254,8 +254,10 @@ namespace Processing_Test
                         while (pos == (-1, -1));
                         endWhile:;
                         pos = ((int, int))AvailablePositions[0];
-
                         AvailablePositions.RemoveAt(0);
+
+                        //AvailablePositions.Remove(pos);
+
                         Available2[pos.Item1, pos.Item2] = false;
                         var b2 = (pos.Item1 + (pos.Item2 * width)) * 4;
 
@@ -281,16 +283,15 @@ namespace Processing_Test
                 file.Delete();
             }
 
-            PSprite toSave;
+            var toSave = new PSprite(Width, Height);
+            toSave.Art.DrawImage(BackgroundImage, 0, 0, Width, Height);
+            toSave.Art.DrawImage(StartImage, 0, 0, Width, Height);
 
             for (var i = 0; i < BufferFrames; i++)
             {
-                toSave = new PSprite(Width, Height);
-                toSave.Art.DrawImage(BackgroundImage, 0, 0, Width, Height);
-                toSave.Art.DrawImage(StartImage, 0, 0, Width, Height);
                 toSave.Save(OutputImagesFolderPath + i.ToString("000000") + ".png");
-                toSave.Dispose();
             }
+            toSave.Dispose();
         }
 
         bool videoRendered = false;
@@ -370,7 +371,7 @@ namespace Processing_Test
                     for (var i = (int)(TimeToTakeFrames * t1) + BufferFrames; i < (TimeToTakeFrames * t1) + (BufferFrames * 2); i++)
                     {
                         toSave = new PSprite(width, height);
-                        toSave.Art.DrawImage(BackgroundImage, 0, 0, Width, Height);
+                        toSave.Art.DrawImage(BackgroundImage, 0, 0, width, height);
                         toSave.Art.DrawImage(EndImage, 0, 0, Width, Height);
                         toSave.Save(OutputImagesFolderPath + i.ToString("000000") + ".png");
                         toSave.Dispose();

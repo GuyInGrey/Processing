@@ -7,7 +7,7 @@ namespace Processing
 {
     public class CanvasFormUI
     {
-        internal CanvasForm Form;
+        public CanvasForm Form;
         public bool Running { get; internal set; } = true;
         public event EventHandler<PKeyEventArgs> KeyDown;
         public event EventHandler<PKeyEventArgs> KeyUp;

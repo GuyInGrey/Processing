@@ -9,7 +9,12 @@ namespace Processing_Test
         {
             //new Bubba();
             //new MandelbrotV1();
-            new PixelParticles(args);
+            //new PixelParticles(args);
+            //new TimeGraph();
+            //new Recursion();
+            //new ImageGenerator();
+            //new Conway();
+            new Epilepsy();
         }
     }
 }

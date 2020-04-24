@@ -7,7 +7,11 @@ using System.Threading.Tasks;
 
 namespace Processing
 {
+#pragma warning disable CS0661
+#pragma warning disable CS0660
     public class PColor
+#pragma warning restore CS0661
+#pragma warning restore CS0660
     {
         public int R = 0;
         public int G = 0;
@@ -31,7 +35,7 @@ namespace Processing
 
         internal Color ToColor() =>
             Color.FromArgb(A, R, G, B);
-        internal static PColor FromColor(Color c) =>
+        public static PColor FromColor(Color c) =>
             new PColor(c.R, c.G, c.B, c.A);
 
         public static PColor Lerp(PColor a, PColor b, float inter)
@@ -78,5 +82,18 @@ namespace Processing
         {
             return new PColor((int)(p.R / f), (int)(p.G / f), (int)(p.B / f));
         }
+
+        public static bool operator ==(PColor a, PColor b) =>
+            (object)a == null ? false : (object)b == null ? false :
+            a.R == b.R && a.G == b.G && a.B == b.B && a.A == b.A;
+
+        public static bool operator !=(PColor a, PColor b) =>
+            !(a == b);
+
+        /// <summary>
+        /// Distance between colors, ranged between 0 and 1
+        /// </summary>
+        public static float DistanceSquared(PColor a, PColor b) =>
+            ((a.R * b.R) + (a.G * b.G) + (a.B * b.B)) / 195075f;
     }
 }

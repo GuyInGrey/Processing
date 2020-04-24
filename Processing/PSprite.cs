@@ -31,7 +31,7 @@ namespace Processing
             var b = new Bitmap(path);
             var toReturn = new PSprite(b.Width, b.Height);
             toReturn.Name = Path.GetFileNameWithoutExtension(path);
-            toReturn._Image = new Bitmap(b.Width, b.Height);
+            toReturn._Image = new Bitmap(b.Width, b.Height, PixelFormat.Format32bppArgb);
             toReturn.Graphics = Graphics.FromImage(toReturn._Image);
             toReturn.Graphics.DrawImage(b, 0, 0, b.Width, b.Height);
             return toReturn;

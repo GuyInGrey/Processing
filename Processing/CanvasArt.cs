@@ -44,7 +44,7 @@ namespace Processing
         private PFont _Font = null;
         private float _StrokeWeight = 1f;
 
-        public List<(int, int)> Vertices;
+        public List<(float, float)> Vertices;
 
         public bool Set(int x, int y, PColor color)
         {
@@ -88,7 +88,7 @@ namespace Processing
             var data = b.LockBits(
                 new Rectangle(0, 0, Width, Height),
                 ImageLockMode.ReadOnly,
-                CanvasImage.PixelFormat
+                PixelFormat.Format32bppArgb
             );
 
             var ptr = data.Scan0;
@@ -106,7 +106,7 @@ namespace Processing
             var data = b.LockBits(
                 new Rectangle(0, 0, Width, Height),
                 ImageLockMode.WriteOnly,
-                CanvasImage.PixelFormat
+                PixelFormat.Format32bppArgb
             );
 
             var ptr = data.Scan0;
@@ -126,31 +126,31 @@ namespace Processing
                 Graphics.FillRectangle(FillColor, new Rectangle(x, y, width, height));
             }
 
-            if (_Stroke != null)
+            if (!(_Stroke is null))
             {
                 Graphics.DrawRectangle(StrokeColor, new Rectangle(x, y, width, height));
             }
         }
 
-        public void Circle(int x, int y, float radius)
+        public void Circle(float x, float y, float radius)
         {
             if (_Fill != null)
             {
-                Graphics.FillEllipse(FillColor, new RectangleF(x - radius, y - radius, radius * 2, radius * 2));
+                Graphics.FillEllipse(FillColor, new RectangleF(x - radius, y - radius, radius * 2f, radius * 2f));
             }
 
-            if (_Stroke != null)
+            if (!(_Stroke is null))
             {
-                Graphics.DrawEllipse(StrokeColor, new RectangleF(x - radius, y - radius, radius * 2, radius * 2));
+                Graphics.DrawEllipse(StrokeColor, new RectangleF(x - radius, y - radius, radius * 2f, radius * 2f));
             }
         }
 
         public void BeginShape()
         {
-            Vertices = new List<(int, int)>();
+            Vertices = new List<(float, float)>();
         }
 
-        public void Vertex(int x, int y)
+        public void Vertex(float x, float y)
         {
             if (Vertices == null) { return; }
             Vertices.Add((x, y));
@@ -160,7 +160,7 @@ namespace Processing
         {
             if (Vertices == null || Vertices.Count < 2) { return; }
             if (type == EndShapeType.Close) { Vertices.Add(Vertices[0]); }
-            var points = Vertices.ConvertAll(v => new Point(v.Item1, v.Item2)).ToArray();
+            var points = Vertices.ConvertAll(v => new PointF(v.Item1, v.Item2)).ToArray();
 
             if (_Fill != null)
             {

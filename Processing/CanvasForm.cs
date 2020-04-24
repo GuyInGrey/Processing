@@ -5,6 +5,8 @@ namespace Processing
 {
     public partial class CanvasForm : Form
     {
+        public PictureBox FormPictureBox => pictureBox;
+
         public CanvasForm()
         {
             InitializeComponent();
