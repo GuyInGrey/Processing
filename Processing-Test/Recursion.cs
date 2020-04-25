@@ -29,8 +29,8 @@ namespace Processing_Test
             Art.NoStroke();
             Art.Fill(PColor.Blue);
 
-            Divide(0, Height, Width, 0, maxDepth);
-            //DrawCircle(Width / 2, Height / 2, Width / 2, 0);
+            //Divide(0, Height, Width, 0, maxDepth);
+            DrawCircle(Width / 2, Height / 2, Width / 2, 0);
 
             timePassed += delta;
             if (timePassed > 1f)

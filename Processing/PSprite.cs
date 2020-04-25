@@ -108,5 +108,12 @@ namespace Processing
 
             return screenshot;
         }
+
+        public static PSprite FromCanvas(Canvas c)
+        {
+            var p = new PSprite(c.Width, c.Height);
+            p.Graphics.DrawImage(c.CanvasImage, 0, 0);
+            return p;
+        }
     }
 }
