@@ -74,6 +74,7 @@ namespace Processing
         public static PColor DarkTurquoise => new PColor(0, 40, 80);
         public static PColor Orange => new PColor(255, 127, 0);
         public static PColor Yellow => new PColor(255, 255, 0);
+        public static PColor CornflowerBlue => FromColor(Color.CornflowerBlue);
 
         public static PColor[] Rainbow = new PColor[] 
             { Red, Orange, Yellow, Green, Blue, Indigo, Purple, };

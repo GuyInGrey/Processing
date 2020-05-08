@@ -57,6 +57,9 @@
       <HintPath>..\..\..\..\Desktop\sc2replay-csharp-master\sc2replay-csharp-master\Starcraft2.ReplayParser\bin\Debug - 2010\MpqLib.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
+    <Reference Include="Roy-T.AStar, Version=3.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RoyT.AStar.3.0.1\lib\netstandard2.0\Roy-T.AStar.dll</HintPath>
+    </Reference>
     <Reference Include="Starcraft2.ReplayParser">
       <HintPath>..\..\..\..\Desktop\sc2replay-csharp-master\sc2replay-csharp-master\Starcraft2.ReplayParser\bin\Debug - 2010\Starcraft2.ReplayParser.dll</HintPath>
     </Reference>
@@ -82,6 +85,7 @@
     <Compile Include="Conway.cs" />
     <Compile Include="Epilepsy.cs" />
     <Compile Include="MandelbrotV1.cs" />
+    <Compile Include="MazeGenerator.cs" />
     <Compile Include="PixelParticles.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
