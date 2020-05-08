@@ -92,7 +92,7 @@ namespace Processing_Test
             Stack.Push(new Point(50, 50));
             Visited[50, 50] = true;
             Connections = new List<(Point, Point)>();
-            ValidImage = PSprite.FromFilePath("Maze\\outline2.png");
+            ValidImage = PSprite.FromFilePath("Maze\\outline3.png");
             ValidSpaces = new bool[size, size];
             Nodes = new Node[size, size];
             Nodes[50, 50] = new Node(new Position(50, 50));
@@ -119,19 +119,19 @@ namespace Processing_Test
                     if (ValidSpaces[x, y])
                     {
                         var c = 0;
-                        if (ValidSpaces[x + 1, y])
+                        if (x < size - 1 && ValidSpaces[x + 1, y])
                         {
                             c++;
                         }
-                        if (ValidSpaces[x - 1, y])
+                        if (x > 0 && ValidSpaces[x - 1, y])
                         {
                             c++;
                         }
-                        if (ValidSpaces[x, y + 1])
+                        if (y < size - 1 && ValidSpaces[x, y + 1])
                         {
                             c++;
                         }
-                        if (ValidSpaces[x, y - 1])
+                        if (y > 0 && ValidSpaces[x, y - 1])
                         {
                             c++;
                         }
@@ -201,7 +201,7 @@ namespace Processing_Test
             }
 
             var p2 = new Point(last.X - 1, last.Y);
-            if (!Visited[p2.X, p2.Y])
+            if (last.X > 0 && !Visited[p2.X, p2.Y])
             {
                 if (ValidSpaces[p2.X, p2.Y])
                 {
@@ -209,7 +209,7 @@ namespace Processing_Test
                 }
             }
             p2 = new Point(last.X, last.Y - 1);
-            if (!Visited[p2.X, p2.Y])
+            if (last.Y > 0 && !Visited[p2.X, p2.Y])
             {
                 if (ValidSpaces[p2.X, p2.Y])
                 {
@@ -217,7 +217,7 @@ namespace Processing_Test
                 }
             }
             p2 = new Point(last.X + 1, last.Y);
-            if (!Visited[p2.X, p2.Y])
+            if (last.X < size - 1 && !Visited[p2.X, p2.Y])
             {
                 if (ValidSpaces[p2.X, p2.Y])
                 {
@@ -225,7 +225,7 @@ namespace Processing_Test
                 }
             }
             p2 = new Point(last.X, last.Y + 1);
-            if (!Visited[p2.X, p2.Y])
+            if (last.Y < size - 1 && !Visited[p2.X, p2.Y])
             {
                 if (ValidSpaces[p2.X, p2.Y])
                 {
