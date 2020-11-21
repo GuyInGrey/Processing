@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 using Processing;
 
 namespace Processing_Test
@@ -12,15 +7,8 @@ namespace Processing_Test
     {
         int maxDepth = 0;
 
-        public Recursion()
-        {
-            CreateCanvas(1000, 1000, 30);
-        }
-
-        public void Setup()
-        {
-
-        }
+        public Recursion() => CreateCanvas(1000, 1000, 30);
+        public void Setup() {  }
 
         float timePassed = 0;
         public void Draw(float delta)
@@ -29,8 +17,8 @@ namespace Processing_Test
             Art.NoStroke();
             Art.Fill(PColor.Blue);
 
-            //Divide(0, Height, Width, 0, maxDepth);
-            DrawCircle(Width / 2, Height / 2, Width / 2, 0);
+            Divide(0, Height, Width, 0, maxDepth);
+            //DrawCircle(Width / 2, Height / 2, Width / 2, 0);
 
             timePassed += delta;
             if (timePassed > 1f)

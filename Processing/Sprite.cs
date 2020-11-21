@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace Processing
 {
-    public class PSprite
+    public class Sprite : IDisposable
     {
         internal Bitmap _Image;
         internal Graphics Graphics;
@@ -17,7 +17,7 @@ namespace Processing
 
         public string Name;
 
-        public static PSprite FromFilePath(string path)
+        public static Sprite FromFilePath(string path)
         {
             //var b = new Bitmap(path);
             //var name = Path.GetFileNameWithoutExtension(path);
@@ -29,7 +29,7 @@ namespace Processing
             //};
 
             var b = new Bitmap(path);
-            var toReturn = new PSprite(b.Width, b.Height);
+            var toReturn = new Sprite(b.Width, b.Height);
             toReturn.Name = Path.GetFileNameWithoutExtension(path);
             toReturn._Image = new Bitmap(b.Width, b.Height, PixelFormat.Format32bppArgb);
             toReturn.Graphics = Graphics.FromImage(toReturn._Image);
@@ -37,7 +37,7 @@ namespace Processing
             return toReturn;
         }
 
-        public PSprite(int width, int height)
+        public Sprite(int width, int height)
         {
             _Image = new Bitmap(width, height);
             Name = "New PSprite";
@@ -45,12 +45,12 @@ namespace Processing
             Art = new CanvasArt(this);
         }
 
-        internal PSprite()
+        public Sprite()
         {
             Art = new CanvasArt(this);
         }
 
-        public PSprite(Canvas canvas)
+        public Sprite(PCanvas canvas)
         {
             _Image = (Bitmap)((Bitmap)canvas.CanvasImage).Clone();
             Name = "PSprite From Canvas";
@@ -97,11 +97,11 @@ namespace Processing
             _Image.Dispose();
         }
 
-        public static PSprite FromScreen(int screenIndex)
+        public static Sprite FromScreen(int screenIndex)
         {
             var s = Screen.AllScreens[screenIndex];
 
-            var screenshot = new PSprite(s.Bounds.Width, s.Bounds.Height);
+            var screenshot = new Sprite(s.Bounds.Width, s.Bounds.Height);
 
             screenshot.Graphics.CopyFromScreen(s.Bounds.X, s.Bounds.Y, 0, 0, 
                 s.Bounds.Size, CopyPixelOperation.SourceCopy);
@@ -109,9 +109,9 @@ namespace Processing
             return screenshot;
         }
 
-        public static PSprite FromCanvas(Canvas c)
+        public static Sprite FromCanvas(PCanvas c)
         {
-            var p = new PSprite(c.Width, c.Height);
+            var p = new Sprite(c.Width, c.Height);
             p.Graphics.DrawImage(c.CanvasImage, 0, 0);
             return p;
         }

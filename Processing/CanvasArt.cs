@@ -26,29 +26,29 @@ namespace Processing
         /// </summary>
         public int Height => CanvasImage.Height;
 
-        internal Canvas Canvas;
-        internal PSprite Sprite;
+        internal PCanvas Canvas;
+        internal Sprite Sprite;
 
         internal int Mode = 0;
 
-        internal CanvasArt(Canvas canvas)
+        internal CanvasArt(PCanvas canvas)
         {
             Canvas = canvas;
             Mode = 0;
         }
 
-        internal CanvasArt(PSprite sprite)
+        internal CanvasArt(Sprite sprite)
         {
             Sprite = sprite;
             Mode = 1;
         }
 
-        private PColor _Stroke = PColor.Black;
-        private PColor _Fill = null;
+        private Paint _Stroke = Paint.Black;
+        private Paint _Fill = null;
         private Pen StrokeColor => new Pen(_Stroke.ToColor(), _StrokeWeight) { EndCap = LineCap.Round, StartCap = LineCap.Round };
         private SolidBrush FillColor => new SolidBrush(_Fill.ToColor());
 
-        private PFont _Font = null;
+        private Font _Font = null;
         private float _StrokeWeight = 1f;
 
         internal List<(float, float)> Vertices;
@@ -60,7 +60,7 @@ namespace Processing
         /// <param name="y"></param>
         /// <param name="color"></param>
         /// <returns></returns>
-        public bool Set(int x, int y, PColor color)
+        public bool Set(int x, int y, Paint color)
         {
             if (x < 0 || x >= Width) { return false; }
             if (y < 0 || y >= Height) { return false; }
@@ -74,7 +74,7 @@ namespace Processing
         /// Fill the entire canvas with the specified color.
         /// </summary>
         /// <param name="color"></param>
-        public void Background(PColor color)
+        public void Background(Paint color)
         {
             var buffer = 10;
             Graphics.FillRectangle(new SolidBrush(color.ToColor()), new Rectangle(-buffer, -buffer, Width + (buffer * 2), Height + (buffer * 2)));
@@ -86,11 +86,11 @@ namespace Processing
         /// <param name="val"></param>
         /// <param name="x"></param>
         /// <param name="y"></param>
-        public void Text(string val, int x, int y)
+        public void Text(string val, float x, float y)
         {
             if (_Fill == null || _Font == null) { return; }
 
-            Graphics.DrawString(val, _Font.Font, FillColor, new Point(x, y),
+            Graphics.DrawString(val, _Font, FillColor, new PointF(x, y),
                 new StringFormat() { LineAlignment = StringAlignment.Center, Alignment = StringAlignment.Center });
         }
 
@@ -98,7 +98,7 @@ namespace Processing
         /// Set the stroke color for lines.
         /// </summary>
         /// <param name="p"></param>
-        public void Stroke(PColor p) { _Stroke = p; }
+        public void Stroke(Paint p) { _Stroke = p; }
         /// <summary>
         /// Remove stroke color.
         /// </summary>
@@ -113,26 +113,17 @@ namespace Processing
         /// Set the fill color for filled shapes.
         /// </summary>
         /// <param name="p"></param>
-        public void Fill(PColor p) { _Fill = p; }
+        public void Fill(Paint p) { _Fill = p; }
         /// <summary>
         /// Remove the fill color.
         /// </summary>
         public void NoFill() { _Fill = null; }
 
         /// <summary>
-        /// Create a PFont object using system fonts.
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="size"></param>
-        /// <returns></returns>
-        public PFont CreateFont(string name, float size) =>
-            new PFont() { Font = new Font(name, size) };
-
-        /// <summary>
         /// Set the font to the given PFont object. Used for <see cref="Text(string, int, int)"/>
         /// </summary>
         /// <param name="f"></param>
-        public void TextFont(PFont f) { _Font = f; }
+        public void TextFont(string name, float size) { _Font = new Font(name, size); }
 
         /// <summary>
         /// Get all the pixels of the canvas in RGBA format. Fastest way to set lots of pixels.
@@ -182,8 +173,8 @@ namespace Processing
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns></returns>
-        public PColor GetPixel(int x, int y) =>
-            PColor.FromColor(((Bitmap)CanvasImage).GetPixel(x, y));
+        public Paint GetPixel(int x, int y) =>
+            Paint.FromColor(((Bitmap)CanvasImage).GetPixel(x, y));
 
         /// <summary>
         /// Draw a rectangle.
@@ -264,6 +255,9 @@ namespace Processing
             Vertices = null;
         }
 
+        public void Line(int x1, int y1, int x2, int y2) =>
+            Line((float)x1, y1, x2, y2);
+
         /// <summary>
         /// Draw a line between two points.
         /// </summary>
@@ -271,7 +265,7 @@ namespace Processing
         /// <param name="y1"></param>
         /// <param name="x2"></param>
         /// <param name="y2"></param>
-        public void Line(int x1, int y1, int x2, int y2)
+        public void Line(float x1, float y1, float x2, float y2)
         {
             if (_Stroke is null) { return; }
             Graphics.DrawLine(StrokeColor, x1, y1, x2, y2);
@@ -300,7 +294,7 @@ namespace Processing
         /// <param name="y"></param>
         /// <param name="width"></param>
         /// <param name="height"></param>
-        public void DrawImage(PSprite sprite, int x, int y, int width, int height)
+        public void DrawImage(Sprite sprite, int x, int y, int width, int height)
         {
             if (sprite is null) { return; }
             Graphics.DrawImage(sprite._Image, x, y, width, height);
@@ -314,7 +308,7 @@ namespace Processing
         /// <param name="y"></param>
         /// <param name="width"></param>
         /// <param name="height"></param>
-        public void DrawImage(Canvas canvas, int x, int y, int width, int height)
+        public void DrawImage(PCanvas canvas, int x, int y, int width, int height)
         {
             Graphics.DrawImage(canvas.CanvasImage, x, y, width, height);
         }

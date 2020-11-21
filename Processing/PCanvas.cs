@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace Processing
 {
-    public class Canvas : CanvasFormUI
+    public class PCanvas : CanvasFormUI
     {
         /// <summary>
         /// To change all things visual on the canvas, use this!
@@ -64,30 +64,37 @@ namespace Processing
         /// </summary>
         public float Delta;
 
-        internal MethodBase DrawMethod;
-        internal MethodBase DebugDrawMethod;
-        internal MethodBase SetupMethod;
+        public virtual void Setup() { }
+        public virtual void Draw(float delta) { }
 
-        public Canvas()
+        // V1 Commented out
+
+        //internal MethodBase DrawMethod;
+        //internal MethodBase DebugDrawMethod;
+        //internal MethodBase SetupMethod;
+
+        public PCanvas()
         {
-            var childName = GetType().FullName;
-            var childType = GetType().Assembly.GetType(childName);
-            if (childType == null) { return; }
-            DrawMethod = childType.GetMethod("Draw", BindingFlags.NonPublic | BindingFlags.Instance);
-            if (DrawMethod == null)
-            {
-                DrawMethod = childType.GetMethod("Draw", BindingFlags.Public | BindingFlags.Instance);
-            }
-            SetupMethod = childType.GetMethod("Setup", BindingFlags.NonPublic | BindingFlags.Instance);
-            if (SetupMethod == null)
-            {
-                SetupMethod = childType.GetMethod("Setup", BindingFlags.Public | BindingFlags.Instance);
-            }
-            DebugDrawMethod = childType.GetMethod("DebugDraw", BindingFlags.NonPublic | BindingFlags.Instance);
-            if (DebugDrawMethod == null)
-            {
-                DebugDrawMethod = childType.GetMethod("DebugDraw", BindingFlags.Public | BindingFlags.Instance);
-            }
+            // V1 Commented out
+            
+            //var childName = GetType().FullName;
+            //var childType = GetType().Assembly.GetType(childName);
+            //if (childType == null) { return; }
+            //DrawMethod = childType.GetMethod("Draw", BindingFlags.NonPublic | BindingFlags.Instance);
+            //if (DrawMethod == null)
+            //{
+            //    DrawMethod = childType.GetMethod("Draw", BindingFlags.Public | BindingFlags.Instance);
+            //}
+            //SetupMethod = childType.GetMethod("Setup", BindingFlags.NonPublic | BindingFlags.Instance);
+            //if (SetupMethod == null)
+            //{
+            //    SetupMethod = childType.GetMethod("Setup", BindingFlags.Public | BindingFlags.Instance);
+            //}
+            //DebugDrawMethod = childType.GetMethod("DebugDraw", BindingFlags.NonPublic | BindingFlags.Instance);
+            //if (DebugDrawMethod == null)
+            //{
+            //    DebugDrawMethod = childType.GetMethod("DebugDraw", BindingFlags.Public | BindingFlags.Instance);
+            //}
 
             Art = new CanvasArt(this);
         }
@@ -129,8 +136,9 @@ namespace Processing
                 //Draw(Delta);
                 try
                 {
-                    DrawMethod?.Invoke(this, new object[] { Delta });
-                    DebugDrawMethod?.Invoke(this, new object[] { Delta });
+                    // V1 Commented out
+                    // /*DrawMethod*/?.Invoke(this, new object[] { Delta });
+                    Draw(Delta);
                 }
                 catch
                 {
@@ -173,7 +181,11 @@ namespace Processing
             lock (CanvasImage)
             {
                 _Graphics = Graphics.FromImage(CanvasImage);
-                SetupMethod?.Invoke(this, new object[] { });
+
+                // V1 Commented out
+                //SetupMethod?.Invoke(this, new object[] { });
+                Setup();
+
                 _Graphics.Dispose();
             }
         }

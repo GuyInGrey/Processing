@@ -5,6 +5,7 @@ using Processing;
 using Roy_T.AStar.Graphs;
 using Roy_T.AStar.Paths;
 using Roy_T.AStar.Primitives;
+using System.Windows.Forms;
 
 //Guess and be a mazed
 namespace Processing_Test
@@ -13,7 +14,7 @@ namespace Processing_Test
     {
         Stack<Point> Stack;
         bool[,] Visited;
-        int size = 100;
+        int size = 50;
         Random r;
         PSprite ValidImage;
 
@@ -89,13 +90,13 @@ namespace Processing_Test
             Stack = new Stack<Point>();
             Visited = new bool[size, size];
             r = new Random();
-            Stack.Push(new Point(50, 50));
-            Visited[50, 50] = true;
+            Stack.Push(new Point(size / 2, size / 2));
+            Visited[size / 2, size / 2] = true;
             Connections = new List<(Point, Point)>();
-            ValidImage = PSprite.FromFilePath("Maze\\outline3.png");
+            ValidImage = PSprite.FromFilePath("Maze\\outline4.png");
             ValidSpaces = new bool[size, size];
             Nodes = new Node[size, size];
-            Nodes[50, 50] = new Node(new Position(50, 50));
+            Nodes[size / 2, size / 2] = new Node(new Position(size / 2, size / 2));
             NodesList = new List<Node>();
 
             for (var y = 0; y < size; y++)
@@ -109,7 +110,7 @@ namespace Processing_Test
                     }
                 }
             }
-            ValidSpaces[50, 50] = false;
+            ValidSpaces[size / 2, size / 2] = false;
             ValidSpaceCount--;
 
             for (var y = 0; y < size; y++)
@@ -239,7 +240,7 @@ namespace Processing_Test
                 return;
             }
 
-            if (ValidSpaceCount % 50 == 0)
+            if (ValidSpaceCount % 100 == 0)
             {
                 Console.WriteLine("Cells remaining: " + ValidSpaceCount);
             }
@@ -269,7 +270,7 @@ namespace Processing_Test
                 var path = pathFinder.FindPath(Nodes[Start.X, Start.Y], Nodes[End.X, End.Y], Velocity.FromMetersPerSecond(1));
 
                 var drawSize = Width / size;
-                Art.Stroke(PColor.Pink);
+                Art.Stroke(PColor.Blue);
                 Art.StrokeWeight(3);
                 foreach (var p in path.Edges)
                 {
@@ -283,7 +284,7 @@ namespace Processing_Test
         {
             Rendered = new PSprite(Width, Height);
 
-            Rendered.Art.Background(PColor.CornflowerBlue);
+            Rendered.Art.Background(PColor.White);
             Rendered.Art.NoStroke();
 
             var drawSize = Width / size;

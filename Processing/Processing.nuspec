@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>1.0.1</version>
+    <title>CSProcessing</title>
+    <authors>GuyInGrey</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <projectUrl>https://github.com/guyingrey/processing</projectUrl>
+    <iconUrl>https://static.thenounproject.com/png/750305-200.png</iconUrl>
+    <description>A C# implementation of the Processing library.</description>
+    <releaseNotes>First release!</releaseNotes>
+    <copyright>$copyright$</copyright>
+    <tags>GuyInGrey Processing</tags>
+  </metadata>
+</package>

@@ -34,34 +34,15 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Processing_Test.Program</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Alea, Version=3.0.0.0, Culture=neutral, PublicKeyToken=ba52afc3c2e933d6, processorArchitecture=MSIL">
-      <HintPath>..\packages\Alea.3.0.4\lib\net45\Alea.dll</HintPath>
-    </Reference>
-    <Reference Include="Alea.IL, Version=3.0.0.0, Culture=neutral, PublicKeyToken=ba52afc3c2e933d6, processorArchitecture=MSIL">
-      <HintPath>..\packages\Alea.3.0.4\lib\net45\Alea.IL.dll</HintPath>
-    </Reference>
-    <Reference Include="Alea.Parallel, Version=3.0.0.0, Culture=neutral, PublicKeyToken=ba52afc3c2e933d6, processorArchitecture=MSIL">
-      <HintPath>..\packages\Alea.3.0.4\lib\net45\Alea.Parallel.dll</HintPath>
-    </Reference>
     <Reference Include="BigRationalLibrary">
       <HintPath>..\..\..\..\Desktop\BigRationalLibrary\bin\Debug\BigRationalLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="FSharp.Core, Version=4.7.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\FSharp.Core.4.7.0\lib\net45\FSharp.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="MathNet.Numerics, Version=4.9.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MathNet.Numerics.4.9.0\lib\net461\MathNet.Numerics.dll</HintPath>
-    </Reference>
-    <Reference Include="MpqLib">
-      <HintPath>..\..\..\..\Desktop\sc2replay-csharp-master\sc2replay-csharp-master\Starcraft2.ReplayParser\bin\Debug - 2010\MpqLib.dll</HintPath>
-    </Reference>
-    <Reference Include="PresentationCore" />
     <Reference Include="Roy-T.AStar, Version=3.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RoyT.AStar.3.0.1\lib\netstandard2.0\Roy-T.AStar.dll</HintPath>
-    </Reference>
-    <Reference Include="Starcraft2.ReplayParser">
-      <HintPath>..\..\..\..\Desktop\sc2replay-csharp-master\sc2replay-csharp-master\Starcraft2.ReplayParser\bin\Debug - 2010\Starcraft2.ReplayParser.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Collections.Specialized, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -82,14 +63,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Conway.cs" />
-    <Compile Include="Epilepsy.cs" />
-    <Compile Include="MandelbrotV1.cs" />
-    <Compile Include="MazeGenerator.cs" />
-    <Compile Include="PixelParticles.cs" />
-    <Compile Include="Program.cs" />
+    <!-- <Compile Include="Old\Conway.cs" />
+    <Compile Include="Old\Epilepsy.cs" />
+    <Compile Include="Old\MandelbrotV1.cs" />
+    <Compile Include="Old\MarchingSquares.cs" />
+    <Compile Include="Old\MazeGenerator.cs" />
+    <Compile Include="Old\PixelParticles.cs" />
+    <Compile Include="Old\Point2D.cs" />
+    <Compile Include="Old\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Recursion.cs" />
+    <Compile Include="Old\Recursion.cs" />
+    <Compile Include="Old\RedFilter.cs" />
+    <Compile Include="Old\ReflectiveBlockers.cs" /> -->
+    <Compile Include="Processing-UpgradeTesting.cs" />
+    <Compile Include="Program.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
