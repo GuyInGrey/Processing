@@ -29,9 +29,11 @@ namespace Processing
             //};
 
             var b = new Bitmap(path);
-            var toReturn = new Sprite(b.Width, b.Height);
-            toReturn.Name = Path.GetFileNameWithoutExtension(path);
-            toReturn._Image = new Bitmap(b.Width, b.Height, PixelFormat.Format32bppArgb);
+            var toReturn = new Sprite(b.Width, b.Height)
+            {
+                Name = Path.GetFileName(path),
+                _Image = new Bitmap(b.Width, b.Height, PixelFormat.Format32bppArgb)
+            };
             toReturn.Graphics = Graphics.FromImage(toReturn._Image);
             toReturn.Graphics.DrawImage(b, 0, 0, b.Width, b.Height);
             return toReturn;
@@ -50,7 +52,7 @@ namespace Processing
             Art = new CanvasArt(this);
         }
 
-        public Sprite(PCanvas canvas)
+        public Sprite(Canvas canvas)
         {
             _Image = (Bitmap)((Bitmap)canvas.CanvasImage).Clone();
             Name = "PSprite From Canvas";
@@ -109,7 +111,7 @@ namespace Processing
             return screenshot;
         }
 
-        public static Sprite FromCanvas(PCanvas c)
+        public static Sprite FromCanvas(Canvas c)
         {
             var p = new Sprite(c.Width, c.Height);
             p.Graphics.DrawImage(c.CanvasImage, 0, 0);

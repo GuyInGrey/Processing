@@ -76,7 +76,7 @@ namespace Processing
             new Paint((int)(p.R / f), (int)(p.G / f), (int)(p.B / f));
 
         public static bool operator ==(Paint a, Paint b) =>
-            (object)a == null ? false : (object)b == null ? false :
+            a is null ? false : b is null ? false :
             a.R == b.R && a.G == b.G && a.B == b.B && a.A == b.A;
 
         public static bool operator !=(Paint a, Paint b) =>  !(a == b);

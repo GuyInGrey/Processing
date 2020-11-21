@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace Processing
 {
-    public class PCanvas : CanvasFormUI
+    public class Canvas : CanvasFormUI
     {
         /// <summary>
         /// To change all things visual on the canvas, use this!
@@ -73,7 +73,7 @@ namespace Processing
         //internal MethodBase DebugDrawMethod;
         //internal MethodBase SetupMethod;
 
-        public PCanvas()
+        public Canvas()
         {
             // V1 Commented out
             
@@ -134,16 +134,9 @@ namespace Processing
                 _Graphics.SmoothingMode = SmoothingMode.HighQuality;
 
                 //Draw(Delta);
-                try
-                {
-                    // V1 Commented out
-                    // /*DrawMethod*/?.Invoke(this, new object[] { Delta });
-                    Draw(Delta);
-                }
-                catch
-                {
-                    Console.WriteLine("You need to have `float delta` as an argument to your draw method!");
-                }
+                // V1 Commented out
+                // /*DrawMethod*/?.Invoke(this, new object[] { Delta });
+                Draw(Delta);
 
                 e.Graphics.DrawImage(CanvasImage, 0, 0, Width, Height);
             }

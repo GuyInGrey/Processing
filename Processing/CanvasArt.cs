@@ -26,12 +26,12 @@ namespace Processing
         /// </summary>
         public int Height => CanvasImage.Height;
 
-        internal PCanvas Canvas;
+        internal Canvas Canvas;
         internal Sprite Sprite;
 
         internal int Mode = 0;
 
-        internal CanvasArt(PCanvas canvas)
+        internal CanvasArt(Canvas canvas)
         {
             Canvas = canvas;
             Mode = 0;
@@ -308,7 +308,7 @@ namespace Processing
         /// <param name="y"></param>
         /// <param name="width"></param>
         /// <param name="height"></param>
-        public void DrawImage(PCanvas canvas, int x, int y, int width, int height)
+        public void DrawImage(Canvas canvas, int x, int y, int width, int height)
         {
             Graphics.DrawImage(canvas.CanvasImage, x, y, width, height);
         }

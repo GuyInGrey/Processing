@@ -6,7 +6,7 @@ namespace Processing_Test
     {
         public static void Main()
         {
-            new Processing_UpgradeTesting();
+            new SnakeGame();
         }
     }
 }

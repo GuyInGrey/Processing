@@ -47,7 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PCanvas.cs" />
+    <Compile Include="Canvas.cs" />
     <Compile Include="CanvasArt.cs" />
     <Compile Include="CanvasForm.cs">
       <SubType>Form</SubType>

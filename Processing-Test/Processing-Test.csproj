@@ -75,7 +75,7 @@
     <Compile Include="Old\Recursion.cs" />
     <Compile Include="Old\RedFilter.cs" />
     <Compile Include="Old\ReflectiveBlockers.cs" /> -->
-    <Compile Include="Processing-UpgradeTesting.cs" />
+    <Compile Include="SnakeGame.cs" />
     <Compile Include="Program.cs" />
   </ItemGroup>
   <ItemGroup>
