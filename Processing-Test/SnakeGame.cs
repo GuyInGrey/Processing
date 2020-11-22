@@ -16,11 +16,11 @@ namespace Processing_Test
         float TimeSinceTick;
         int CellCount = 40;
         int CellSize => Width / CellCount;
-        float TickTime = 0.25f;
+        float TickTime = 0.1f;
         bool Lost = false;
+        float PulseTime;
 
-        public SnakeGame() =>
-            CreateCanvas(1000, 1000, 60);
+        public SnakeGame() => CreateCanvas(1000, 1000, 60);
 
         public override void Setup()
         {
@@ -44,6 +44,8 @@ namespace Processing_Test
                 Next = Direction.Left; });
             AddKeyAction("Right", b => { if (!b) { return; }
                 Next = Direction.Right; });
+
+            Art.TextFont("Ailerons", 30f);
         }
 
         public override void Draw(float delta)
@@ -51,6 +53,8 @@ namespace Processing_Test
             if (Lost) { TimeSinceTick = float.MinValue; }
             TimeSinceTick += delta;
             if (TimeSinceTick > TickTime) { Tick(); TimeSinceTick = 0f; }
+
+            PulseTime += delta;
 
             Art.Background(Paint.CornflowerBlue);
             Art.NoStroke();
@@ -66,9 +70,11 @@ namespace Processing_Test
             if (Lost)
             {
                 Art.Fill(Paint.Red);
-                Art.TextFont("Arial", 30f);
                 Art.Text("You've lost!", Width / 2, Height / 2);
             }
+
+            Art.Fill(Paint.LerpMultiple(new[] { Paint.Black, Paint.White, Paint.Black }, ((PulseTime * Body.Count) / 5) % 1));
+            Art.Text(Body.Count.ToString(), Width / 2, 15);
         }
 
         public void DrawSnakeEdges()
@@ -84,19 +90,19 @@ namespace Processing_Test
                 conns = conns.ConvertAll(c => c - b).ToList();
                 conns.ForEach(c =>
                 {
-                    if (c == Point.Left) { connections = connections | Direction.Left; }
-                    if (c == Point.Right) { connections = connections | Direction.Right; }
-                    if (c == Point.Up) { connections = connections | Direction.Up; }
-                    if (c == Point.Down) { connections = connections | Direction.Down; }
+                    if (c == Point.Left) { connections |= Direction.Left; }
+                    if (c == Point.Right) { connections |= Direction.Right; }
+                    if (c == Point.Up) { connections |= Direction.Up; }
+                    if (c == Point.Down) { connections |= Direction.Down; }
                 });
 
                 connections = ~connections;
 
-                Art.Stroke(Paint.Black);
-                Art.StrokeWeight(3f);
-
                 var bX = b.X * CellSize;
                 var bY = b.Y * CellSize;
+
+                Art.Stroke(Paint.Black);
+                Art.StrokeWeight(3f);
 
                 if ((connections & Direction.Up) == Direction.Up)  
                 { Art.Line(bX, bY, bX + CellSize, bY); }
