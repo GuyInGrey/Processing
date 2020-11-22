@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Processing;
 
 namespace Processing_Test
@@ -8,9 +10,12 @@ namespace Processing_Test
         List<Point> Body;
         Direction Direction;
         Direction Next;
+        Point Food;
+        Random Random;
 
         float TimeSinceTick;
-        int CellSize => Width / 40;
+        int CellCount = 40;
+        int CellSize => Width / CellCount;
         float TickTime = 0.25f;
         bool Lost = false;
 
@@ -19,6 +24,7 @@ namespace Processing_Test
 
         public override void Setup()
         {
+            Random = new Random();
             Body = new List<Point>()
             {
                 new Point(20, 20),
@@ -27,6 +33,8 @@ namespace Processing_Test
             };
             Direction = Direction.Up;
             Next = Direction.Up;
+
+            GenFood();
 
             AddKeyAction("Up", b => { if (!b) { return; }
                 Next = Direction.Up; });
@@ -45,9 +53,60 @@ namespace Processing_Test
             if (TimeSinceTick > TickTime) { Tick(); TimeSinceTick = 0f; }
 
             Art.Background(Paint.CornflowerBlue);
-            Art.Stroke(Paint.Black);
+            Art.NoStroke();
+
             Art.Fill(Paint.White);
-            Body.ForEach(b => Art.Rect(b.X * CellSize, b.Y * CellSize, CellSize, CellSize));
+            Body.ForEach(b => Art.Rect(b.X * CellSize, b.Y * CellSize, CellSize + 1, CellSize + 1));
+
+            DrawSnakeEdges();
+
+            Art.Fill(Paint.Red);
+            Art.Rect(Food.X * CellSize, Food.Y * CellSize, CellSize, CellSize);
+
+            if (Lost)
+            {
+                Art.Fill(Paint.Red);
+                Art.TextFont("Arial", 30f);
+                Art.Text("You've lost!", Width / 2, Height / 2);
+            }
+        }
+
+        public void DrawSnakeEdges()
+        {
+            for (var i = 0; i < Body.Count; i++)
+            {
+                var b = Body[i];
+                var conns = new List<Point>();
+                if (i > 0) { conns.Add(Body[i-1]); }
+                if (i < Body.Count - 1) { conns.Add(Body[i + 1]); }
+
+                Direction connections = 0;
+                conns = conns.ConvertAll(c => c - b).ToList();
+                conns.ForEach(c =>
+                {
+                    if (c == Point.Left) { connections = connections | Direction.Left; }
+                    if (c == Point.Right) { connections = connections | Direction.Right; }
+                    if (c == Point.Up) { connections = connections | Direction.Up; }
+                    if (c == Point.Down) { connections = connections | Direction.Down; }
+                });
+
+                connections = ~connections;
+
+                Art.Stroke(Paint.Black);
+                Art.StrokeWeight(3f);
+
+                var bX = b.X * CellSize;
+                var bY = b.Y * CellSize;
+
+                if ((connections & Direction.Up) == Direction.Up)  
+                { Art.Line(bX, bY, bX + CellSize, bY); }
+                if ((connections & Direction.Down) == Direction.Down)
+                { Art.Line(bX, bY + CellSize, bX + CellSize, bY + CellSize); }
+                if ((connections & Direction.Left) == Direction.Left)
+                { Art.Line(bX, bY, bX, bY + CellSize); }
+                if ((connections & Direction.Right) == Direction.Right)
+                { Art.Line(bX + CellSize, bY, bX + CellSize, bY + CellSize); }
+            }
         }
 
         public void Tick()
@@ -61,6 +120,7 @@ namespace Processing_Test
             Direction = invalid ? Direction : Next;
 
             // Shift Snake
+            var oldTail = Body[Body.Count - 1];
             for (var i = Body.Count - 1; i > 0; i--)
             {
                 Body[i] = Body[i - 1];
@@ -72,10 +132,39 @@ namespace Processing_Test
                 Direction == Direction.Right ? Point.Right : Point.Zero
             );
 
-            if ((Direction == Direction.Up || Direction == Direction.Down) && (Next == Direction.Up || Next == Direction.Down))
-            { 
-                
+            for (var i = 0; i < Body.Count; i++)
+            {
+                for (var j = 0; j < Body.Count; j++)
+                {
+                    // Two snake parts intersect
+                    if (j != i && Body[i] == Body[j])
+                    {
+                        Lost = true;
+                    }
+                }
+                // Out of bounds
+                if (Body[i].X < 0 || Body[i].Y < 0 || Body[i].X >= CellCount || Body[i].Y >= CellCount)
+                {
+                    Lost = true;
+                }
             }
+
+            // EAT
+            if (Body[0] == Food)
+            {
+                Body.Add(oldTail);
+                GenFood();
+            }
+        }
+
+        public void GenFood()
+        {
+            var spaces = new List<Point>();
+            Enumerable.Range(0, CellCount).ToList()
+                .ForEach(x => Enumerable.Range(0, CellCount)
+                .ToList().ForEach(y => spaces.Add(new Point(x, y))));
+            spaces.RemoveAll(p => Body.Contains(p));
+            Food = spaces[Random.Next(0, spaces.Count)];
         }
     }
 
@@ -87,8 +176,21 @@ namespace Processing_Test
         public Point() { }
         public Point(int x, int y) { X = x; Y = y; }
 
+        public override bool Equals(object obj) =>
+            obj is Point p ? p == this : false;
+
+        public override int GetHashCode() => X * Y;
+
         public static Point operator +(Point a, Point b) =>
             new Point() { X = a.X + b.X, Y = a.Y + b.Y };
+
+        public static Point operator -(Point a, Point b) =>
+            new Point() { X = a.X - b.X, Y = a.Y - b.Y };
+
+        public static bool operator ==(Point a, Point b) =>
+            a is null ? false : b is null ? false : a.X == b.X && a.Y == b.Y;
+
+        public static bool operator !=(Point a, Point b) => !(a == b);
 
         public static Point Up = new Point(0, -1);
         public static Point Down = new Point(0, 1);
@@ -97,8 +199,11 @@ namespace Processing_Test
         public static Point Zero = new Point(0, 0);
     }
 
-    public enum Direction
+    public enum Direction : ushort
     {
-        Up, Right, Down, Left,
+        Up = 1,
+        Right = 2, 
+        Down = 4,
+        Left = 8,
     }
 }
