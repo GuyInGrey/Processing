@@ -45,7 +45,7 @@ namespace Processing_Test
             AddKeyAction("Right", b => { if (!b) { return; }
                 Next = Direction.Right; });
 
-            Art.TextFont("Ailerons", 30f);
+            Art.TextFont("Arial", 30f);
         }
 
         public override void Draw(float delta)
