@@ -68,6 +68,9 @@ namespace Processing_Test
             Art.Fill(Paint.Red);
             Art.Rect(Food.X * CellSize, Food.Y * CellSize, CellSize, CellSize);
 
+            Art.Stroke(Paint.Black);
+            Art.StrokeWeight(1f);
+
             if (Lost)
             {
                 Art.Fill(Paint.Red);

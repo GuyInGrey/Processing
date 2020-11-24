@@ -88,10 +88,20 @@ namespace Processing
         /// <param name="y"></param>
         public void Text(string val, float x, float y)
         {
-            if (_Fill == null || _Font == null) { return; }
+            if (_Font is null) { return; }
 
-            Graphics.DrawString(val, _Font, FillColor, new PointF(x, y),
+            var path = new GraphicsPath();
+            path.AddString(val, _Font.FontFamily, (int)_Font.Style, _Font.Size, new PointF(x, y),
                 new StringFormat() { LineAlignment = StringAlignment.Center, Alignment = StringAlignment.Center });
+
+            if (!(_Fill is null))
+            {
+                Graphics.FillPath(FillColor, path);
+            }
+            if (!(_Stroke is null))
+            {
+                Graphics.DrawPath(StrokeColor, path);
+            }
         }
 
         /// <summary>
