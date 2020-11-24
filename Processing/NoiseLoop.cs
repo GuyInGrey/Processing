@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Processing
+﻿namespace Processing
 {
     public class NoiseLoop : FastNoise
     {
