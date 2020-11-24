@@ -41,18 +41,7 @@ namespace Processing
         /// </summary>
         public Graphics _Graphics;
 
-        /// <summary>
-        /// The frame rate your application is trying to run at.
-        /// </summary>
-        public int FrameRateTarget = 60;
-        /// <summary>
-        /// The current framerate the application is running at.
-        /// </summary>
-        public int FrameRateCurrent = 0;
-        /// <summary>
-        /// The frames that have been rendered since the application started.
-        /// </summary>
-        public int TotalFrameCount = 0;
+        public Timing Timing = new Timing();
 
         internal int FramesInLastSecond = 0;
         internal Stopwatch TimeSinceLastFrameRateUdate = Stopwatch.StartNew();
@@ -67,35 +56,8 @@ namespace Processing
         public virtual void Setup() { }
         public virtual void Draw(float delta) { }
 
-        // V1 Commented out
-
-        //internal MethodBase DrawMethod;
-        //internal MethodBase DebugDrawMethod;
-        //internal MethodBase SetupMethod;
-
         public Canvas()
         {
-            // V1 Commented out
-            
-            //var childName = GetType().FullName;
-            //var childType = GetType().Assembly.GetType(childName);
-            //if (childType == null) { return; }
-            //DrawMethod = childType.GetMethod("Draw", BindingFlags.NonPublic | BindingFlags.Instance);
-            //if (DrawMethod == null)
-            //{
-            //    DrawMethod = childType.GetMethod("Draw", BindingFlags.Public | BindingFlags.Instance);
-            //}
-            //SetupMethod = childType.GetMethod("Setup", BindingFlags.NonPublic | BindingFlags.Instance);
-            //if (SetupMethod == null)
-            //{
-            //    SetupMethod = childType.GetMethod("Setup", BindingFlags.Public | BindingFlags.Instance);
-            //}
-            //DebugDrawMethod = childType.GetMethod("DebugDraw", BindingFlags.NonPublic | BindingFlags.Instance);
-            //if (DebugDrawMethod == null)
-            //{
-            //    DebugDrawMethod = childType.GetMethod("DebugDraw", BindingFlags.Public | BindingFlags.Instance);
-            //}
-
             Art = new CanvasArt(this);
         }
 
@@ -104,12 +66,12 @@ namespace Processing
         /// </summary>
         /// <param name="width">The width of the window.</param>
         /// <param name="height">The height of the window.</param>
-        /// <param name="frameRateTarget">The frame rate your application is trying to run at.</param>
-        public void CreateCanvas(int width, int height, int frameRateTarget)
+        /// <param name="targetFramesPerSecond">The frame rate your application is trying to run at.</param>
+        public void CreateCanvas(int width, int height, int targetFramesPerSecond)
         {
             Initialize(width, height);
 
-            FrameRateTarget = frameRateTarget;
+            Timing.TargetFramesPerSecond = targetFramesPerSecond;
             CanvasImage = new Bitmap(width, height);
             Form.pictureBox.Image = new Bitmap(width, height);
             _Graphics = Graphics.FromImage(CanvasImage);
@@ -133,27 +95,16 @@ namespace Processing
                 _Graphics = Graphics.FromImage(CanvasImage);
                 _Graphics.SmoothingMode = SmoothingMode.HighQuality;
 
-                //Draw(Delta);
-                // V1 Commented out
-                // /*DrawMethod*/?.Invoke(this, new object[] { Delta });
                 Draw(Delta);
 
                 e.Graphics.DrawImage(CanvasImage, 0, 0, Width, Height);
             }
 
-            TotalFrameCount++;
-            FramesInLastSecond++;
-
-            if (TimeSinceLastFrameRateUdate.Elapsed.TotalMilliseconds > 1000)
-            {
-                TimeSinceLastFrameRateUdate = Stopwatch.StartNew();
-                FrameRateCurrent = FramesInLastSecond;
-                FramesInLastSecond = 0;
-            }
+            Timing.FrameRendered();
 
             Delta = ((float)frameTimer.Elapsed.TotalMilliseconds) / 1000f;
 
-            var timeWantedPerFrameMS = 1000f / FrameRateTarget;
+            var timeWantedPerFrameMS = 1000f / Timing.TargetFramesPerSecond;
             if (timeWantedPerFrameMS > 1)
             {
                 frameTimer.Stop();
@@ -175,8 +126,6 @@ namespace Processing
             {
                 _Graphics = Graphics.FromImage(CanvasImage);
 
-                // V1 Commented out
-                //SetupMethod?.Invoke(this, new object[] { });
                 Setup();
 
                 _Graphics.Dispose();

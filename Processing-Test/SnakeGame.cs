@@ -50,7 +50,7 @@ namespace Processing_Test
 
         public override void Draw(float delta)
         {
-            Title("FPS: " + FrameRateCurrent);
+            Title("FPS: " + Timing.ActualFramesPerSecond);
             if (Lost) { TimeSinceTick = float.MinValue; }
             TimeSinceTick += delta;
             if (TimeSinceTick > TickTime) { Tick(); TimeSinceTick = 0f; }
@@ -167,10 +167,6 @@ namespace Processing_Test
         public void GenFood()
         {
             var spaces = new List<Point>();
-            //Enumerable.Range(0, CellCount).ToList()
-            //    .ForEach(x => Enumerable.Range(0, CellCount)
-            //    .ToList().ForEach(y => spaces.Add(new Point(x, y))));
-
             for (var y = 0; y < CellCount; y++)
             {
                 for (var x = 0; x < CellCount; x++)
