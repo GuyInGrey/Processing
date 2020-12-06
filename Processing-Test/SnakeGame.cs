@@ -12,6 +12,7 @@ namespace Processing_Test
         Direction Next;
         Point Food;
         Random Random;
+        Sprite Apple;
 
         float TimeSinceTick;
         int CellCount = 40;
@@ -24,6 +25,7 @@ namespace Processing_Test
 
         public override void Setup()
         {
+            Apple = Sprite.FromFilePath("apple.png");
             Random = new Random();
             Body = new List<Point>()
             {
@@ -65,8 +67,10 @@ namespace Processing_Test
 
             DrawSnakeEdges();
 
-            Art.Fill(Paint.Red);
-            Art.Rect(Food.X * CellSize, Food.Y * CellSize, CellSize, CellSize);
+            //Art.Fill(Paint.Red);
+            //Art.Rect(Food.X * CellSize, Food.Y * CellSize, CellSize, CellSize);
+
+            Art.DrawImage(Apple, Food.X * CellSize, Food.Y * CellSize, CellSize, CellSize);
 
             Art.Stroke(Paint.Black);
             Art.StrokeWeight(1f);

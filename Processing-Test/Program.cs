@@ -6,7 +6,8 @@ namespace Processing_Test
     {
         public static void Main()
         {
-            new SnakeGame();
+            //new SnakeGame();
+            new ParticleSimulator();
         }
     }
 }
