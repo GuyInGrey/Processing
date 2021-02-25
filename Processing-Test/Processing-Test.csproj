@@ -72,6 +72,7 @@
     <Compile Include="Old\Recursion.cs" />
     <Compile Include="Old\RedFilter.cs" />
     <Compile Include="Old\ReflectiveBlockers.cs" /> -->
+    <Compile Include="CPUGraph.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Particles.cs" />
     <Compile Include="SnakeGame.cs" />

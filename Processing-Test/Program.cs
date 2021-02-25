@@ -7,7 +7,8 @@ namespace Processing_Test
         public static void Main()
         {
             //new SnakeGame();
-            new ParticleSimulator();
+            //new ParticleSimulator();
+            new CPUGraph();
         }
     }
 }
